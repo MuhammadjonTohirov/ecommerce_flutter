@@ -52,7 +52,7 @@ class MainScreenState extends State<MainScreen> {
         iconTheme: IconThemeData(color: light.icon),
         appBarTheme: AppBarTheme(
           foregroundColor: light.text,
-          backgroundColor: light.background,
+          backgroundColor: light.secondaryBackground,
         ),
         textTheme: GoogleFonts.robotoTextTheme(Theme.of(context).textTheme)
             .apply(bodyColor: light.text),
@@ -70,7 +70,7 @@ class MainScreenState extends State<MainScreen> {
         visualDensity: VisualDensity.adaptivePlatformDensity,
         appBarTheme: AppBarTheme(
           foregroundColor: dark.text,
-          backgroundColor: dark.background,
+          backgroundColor: dark.secondaryBackground,
         ),
         textTheme: GoogleFonts.robotoTextTheme(Theme.of(context).textTheme)
             .apply(bodyColor: dark.text),

@@ -54,7 +54,7 @@ class LightColors implements Colorify {
   Color? primary = Color.fromARGB(255, 45, 156, 219);
 
   @override
-  Color? secondaryBackground = Color(0xFFEFEFEF);
+  Color? secondaryBackground = Color(0xFFF1F1F1);
 
   @override
   Color? secondaryText = Color.fromARGB(255, 150, 150, 150);

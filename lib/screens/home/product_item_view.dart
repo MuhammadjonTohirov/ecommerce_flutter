@@ -3,6 +3,7 @@ import 'package:ecommerce/helpers/global_methods.dart';
 import 'package:ecommerce/helpers/media_provider.dart';
 import 'package:ecommerce/helpers/metrics.dart';
 import 'package:ecommerce/models/sales/category.dart';
+import 'package:ecommerce/widgets/common/widgets/buttons/simple_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
@@ -34,16 +35,9 @@ class _ProductItemViewState extends State<ProductItemView> {
     );
   }
 
-  Widget mainBody(BuildContext context) {
-    return AnimatedContainer(
-      duration: Duration(milliseconds: 400),
-      curve: Curves.easeInOut,
-      margin: EdgeInsets.only(bottom: 8),
-      constraints: BoxConstraints(
-        maxWidth: Design.responsiveWidth(240),
-      ),
-      decoration: BoxDecoration(
-        color: Colors.white,
+  BoxDecoration mainBodyDecoration() {
+    if (isWeb()) {
+      return BoxDecoration(
         borderRadius: BorderRadius.circular(8),
         boxShadow: [
           BoxShadow(
@@ -53,16 +47,31 @@ class _ProductItemViewState extends State<ProductItemView> {
             spreadRadius: 1,
           ),
         ],
+      );
+    }
+
+    return BoxDecoration(
+      borderRadius: BorderRadius.circular(8),
+    );
+  }
+
+  Widget mainBody(BuildContext context) {
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 400),
+      curve: Curves.easeInOut,
+      margin: EdgeInsets.only(bottom: 8),
+      constraints: BoxConstraints(
+        maxWidth: Design.responsiveWidth(200),
       ),
-      child: ClipRRect(
-        child: MaterialButton(
-          onPressed: () {},
-          child: Container(
-            child: contentBody(),
-            padding: EdgeInsets.all(8),
-          ),
+      decoration: mainBodyDecoration(),
+      child: SimpleButton(
+        onPressed: () {
+          appLog("On pres product item");
+        },
+        child: Padding(
+          child: contentBody(),
+          padding: EdgeInsets.all(4),
         ),
-        borderRadius: BorderRadius.circular(8),
       ),
     );
   }
@@ -72,18 +81,9 @@ class _ProductItemViewState extends State<ProductItemView> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        Image.asset(widget.product.image, fit: BoxFit.cover),
         Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(
-              Radius.circular(16),
-            ),
-          ),
-          child: Image.asset(widget.product.image, fit: BoxFit.cover),
-          height: Design.responsiveWidth(224),
-          width: Design.responsiveWidth(224),
-        ),
-        Container(
-          padding: EdgeInsets.only(top: 10),
+          padding: EdgeInsets.only(top: 8),
           child: Text(
             this.widget.product.name,
             maxLines: 1,
@@ -91,7 +91,7 @@ class _ProductItemViewState extends State<ProductItemView> {
           ),
         ),
         Container(
-          padding: EdgeInsets.only(top: 10, bottom: 10),
+          padding: EdgeInsets.only(top: 8, bottom: 8),
           child: Text(
             widget.product.price,
             maxLines: 1,
@@ -99,7 +99,7 @@ class _ProductItemViewState extends State<ProductItemView> {
           ),
         ),
         Container(
-          padding: EdgeInsets.only(bottom: 10),
+          height: 40,
           child: Text(
             this.widget.product.description,
             maxLines: 2,
@@ -110,43 +110,97 @@ class _ProductItemViewState extends State<ProductItemView> {
             ),
           ),
         ),
+        Container(
+          child: RatingBar.builder(
+            initialRating: 3,
+            minRating: 1,
+            itemSize: 14,
+            direction: Axis.horizontal,
+            allowHalfRating: true,
+            itemCount: 5,
+            itemPadding: EdgeInsets.symmetric(horizontal: 0),
+            itemBuilder: (context, _) => Icon(
+              Icons.star,
+              color: Colors.amber,
+            ),
+            onRatingUpdate: (rating) {
+              appLog(rating);
+            },
+          ),
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
-              width: 122,
-              child: RatingBar.builder(
-                initialRating: 3,
-                minRating: 1,
-                itemSize: 18,
-                direction: Axis.horizontal,
-                allowHalfRating: true,
-                itemCount: 5,
-                itemPadding: EdgeInsets.symmetric(horizontal: 0),
-                itemBuilder: (context, _) => Icon(
-                  Icons.star,
-                  color: Colors.amber,
-                ),
-                onRatingUpdate: (rating) {
-                  appLog(rating);
-                },
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () {},
-              child: Row(children: [
-                Container(
-                  width: 24,
-                  height: 24,
-                  child: Icon(Icons.favorite),
-                  margin: EdgeInsets.only(right: 8),
-                ),
-                Text("Like"),
-              ]),
-            ),
+            cartButton(),
+            likeButton("Like", Media.iconHeart),
           ],
-        ),
+        )
       ],
+    );
+  }
+
+  Widget cartButton() {
+    return Container(
+      margin: EdgeInsets.only(top: 4),
+      // clipBehavior: Clip.antiAlias,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(
+          Radius.circular(6),
+        ),
+        border: Border.all(
+          width: 1,
+          color: ColorPack.primary,
+        ),
+      ),
+      child: SimpleButton(
+        onPressed: () {
+          appLog("On pres cart button");
+        },
+        child: Container(
+          alignment: Alignment.center,
+          child: Image.asset(
+            Media.iconCart,
+            width: 20,
+            height: 20,
+            fit: BoxFit.scaleDown,
+            color: ColorPack.primary,
+          ),
+          width: 32,
+          height: 32,
+        ),
+      ),
+    );
+  }
+
+  Widget likeButton(String text, String? iconName, {Function? onPressed}) {
+    return Container(
+      height: 32,
+      margin: EdgeInsets.only(top: 4),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(6)),
+        border: Border.all(
+          color: ColorPack.primary,
+          width: 1,
+        ),
+      ),
+      child: SimpleButton(
+        child: Padding(
+          child: Row(children: [
+            if (iconName != null)
+              Container(
+                padding: EdgeInsets.all(3),
+                width: 20,
+                height: 20,
+                child: Image.asset(iconName),
+                margin: EdgeInsets.only(right: 8),
+              ),
+            Text(text),
+            SizedBox(width: 4)
+          ]),
+          padding: EdgeInsets.all(2),
+        ),
+        onPressed: () {},
+      ),
     );
   }
 }

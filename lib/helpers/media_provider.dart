@@ -33,6 +33,7 @@ class Media {
   static final String iconChevronDown = "images/icons/chevron_down.png";
   static final String iconMenu = "images/icons/icon_menu.png";
   static final String imageDefault3 = "images/icons/image_default_3.png";
+  static final String iconHeart = "images/icons/icon_heart.png";
 
   // media/products
   static final String imageProduct1 = "images/products/temp1.png";

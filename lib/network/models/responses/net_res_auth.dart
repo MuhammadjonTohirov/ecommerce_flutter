@@ -43,11 +43,11 @@ class NetResAuthUser extends Decodable {
 
   factory NetResAuthUser.fromJson(Map<String, dynamic> json) => NetResAuthUser(
         id: json["id"],
-        username: json["username"],
-        email: json["email"],
-        firstName: json["first_name"],
-        lastName: json["last_name"],
-        isActive: json["is_active"],
+        username: json["username"] ?? "",
+        email: json["email"] ?? "",
+        firstName: json["first_name"] ?? "",
+        lastName: json["last_name"] ?? "",
+        isActive: json["is_active"] ?? false,
       );
 }
 

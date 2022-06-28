@@ -11,10 +11,8 @@ class SearchField extends StatelessWidget {
     return Container(
       height: 36,
       decoration: BoxDecoration(
-        color: Colors.grey.withAlpha(50),
-        borderRadius: BorderRadius.all(
-          Radius.circular(8),
-        ),
+        color: Theme.of(context).appBarTheme.backgroundColor,
+        borderRadius: BorderRadius.circular(32),
       ),
       child: TextField(
         textAlignVertical: TextAlignVertical.bottom,
@@ -26,13 +24,8 @@ class SearchField extends StatelessWidget {
             fontStyle: FontStyle.normal,
             fontWeight: FontWeight.normal,
           ),
-          border: OutlineInputBorder(
-            borderSide: BorderSide(
-              color: Colors.grey.withAlpha(50),
-              width: 0.5,
-            ),
-            borderRadius: BorderRadius.circular(8),
-          ),
+          disabledBorder: InputBorder.none,
+          border: InputBorder.none,
           prefixIcon: Icon(
             Icons.search,
             color: ColorPack.textGrey,

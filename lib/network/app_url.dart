@@ -1,5 +1,5 @@
 class AppURL {
-  static const String baseUrl = 'http://192.168.1.64:8000/';
+  static const String baseUrl = 'http://192.168.1.68:8080/';
   static const String getProducts = '$baseUrl' + 'sales/products';
   static const String signIn = '$baseUrl' + 'crm/api/login/';
   static const String verifyToken = '$baseUrl' + 'crm/api/token/verify/';
